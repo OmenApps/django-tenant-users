@@ -8,7 +8,7 @@ from ..compat import (get_tenant_model, TENANT_SCHEMAS, get_public_schema_name,
 from .models import InactiveError, ExistsError
 
 
-def provision_tenant(tenant_name, tenant_slug, user_email, is_staff=False):
+def provision_tenant(tenant_name, tenant_slug, tenant_type, user_email, is_staff=False):
     """
     Create a tenant with default roles and permissions
 
@@ -37,8 +37,14 @@ def provision_tenant(tenant_name, tenant_slug, user_email, is_staff=False):
     # Must be valid postgres schema characters see:
     # https://www.postgresql.org/docs/9.2/static/sql-syntax-lexical.html#SQL-SYNTAX-IDENTIFIERS
     # We generate unique schema names each time so we can keep tenants around without
-    # taking up url/schema namespace. 
-    schema_name = '{}_{}'.format(tenant_slug, time_string)
+    # taking up url/schema namespace.
+
+    # Append the tenant type to the schema name
+    available_tenant_types = tuple(settings.TENANT_LISTING.keys())
+    if tenant_type not in available_tenant_types:
+        tenant_type = available_tenant_types[0]
+
+    schema_name = '{}_{}_{}'.format(tenant_slug, time_string, tenant_type)
     domain = None
 
     # noinspection PyBroadException

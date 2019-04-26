@@ -67,6 +67,10 @@ class TenantBase(TenantMixin):
     created = models.DateTimeField()
     modified = models.DateTimeField(blank=True)
 
+    # Pull the tenant name choices from TENANT_LISTING dictionary keys
+    TENANT_TYPE = tuple([(tpl, tpl) for tpl in tuple(settings.TENANT_LISTING.keys())])
+    type = models.CharField(max_length=20, choices=TENANT_TYPE, default=TENANT_TYPE[0])
+
     # Schema will be automatically created and synced when it is saved
     auto_create_schema = True
     # Schema will be automatically deleted when related tenant is deleted
