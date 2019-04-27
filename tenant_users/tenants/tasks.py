@@ -59,6 +59,7 @@ def provision_tenant(tenant_name, tenant_slug, tenant_type, user_email, is_staff
                     slug=tenant_slug,
                     domain_url=tenant_domain,
                     schema_name=schema_name,
+                    tenant_type=tenant_type,
                     owner=user,
                 )
 
@@ -66,6 +67,7 @@ def provision_tenant(tenant_name, tenant_slug, tenant_type, user_email, is_staff
                 tenant = TenantModel.objects.create(name=tenant_name,
                                                     slug=tenant_slug,
                                                     schema_name=schema_name,
+                                                    tenant_type=tenant_type,
                                                     owner=user)
 
                 # Add one or more domains for the tenant

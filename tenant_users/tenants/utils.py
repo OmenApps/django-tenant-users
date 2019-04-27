@@ -35,10 +35,12 @@ def create_public_tenant(domain_url, owner_email, **owner_extra):
             domain_url=domain_url,
             schema_name=public_schema_name,
             name='Public Tenant',
+            tenant_type='public',
             owner=profile)
     else:
         public_tenant = TenantModel.objects.create(schema_name=public_schema_name,
                                                    name='Public Tenant',
+                                                   tenant_type='public',
                                                    owner=profile)
 
         # Add one or more domains for the tenant

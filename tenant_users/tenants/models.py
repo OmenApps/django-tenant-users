@@ -68,8 +68,8 @@ class TenantBase(TenantMixin):
     modified = models.DateTimeField(blank=True)
 
     # Pull the tenant name choices from TENANT_LISTING dictionary keys
-    TENANT_TYPE = tuple([(tpl, tpl) for tpl in tuple(settings.TENANT_LISTING.keys())])
-    type = models.CharField(max_length=20, choices=TENANT_TYPE, default=TENANT_TYPE[0])
+    TENANT_TYPE = tuple([('public', 'public')] + [(tpl, tpl) for tpl in tuple(settings.TENANT_LISTING.keys())])
+    tenant_type = models.CharField(max_length=20, choices=TENANT_TYPE, default=TENANT_TYPE[0])
 
     # Schema will be automatically created and synced when it is saved
     auto_create_schema = True
